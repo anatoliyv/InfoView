@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'InfoView_Example' do
+  pod 'InfoView', :path => '../'
+
+  target 'InfoView_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
