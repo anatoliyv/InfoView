@@ -93,9 +93,9 @@ pod "InfoView"
 
 ## ToDo
 
-- More animations
-- Support long text messages
-- Support NSAttributedString's for formatted text
+- [ ] More animations
+- [ ] Support long text messages
+- [ ] Support NSAttributedString's for formatted text
 
 ## Author
 
