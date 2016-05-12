@@ -4,6 +4,7 @@ View to show small text information blocks with arrow pointed to another view.In
 
 ![infoview5](https://cloud.githubusercontent.com/assets/1595032/15215075/30e1f68e-1859-11e6-9cc9-cdf98d013b3c.gif)
 
+![](https://travis-ci.org/anatoliyv/InfoView.svg?branch=master)
 [![Version](https://img.shields.io/cocoapods/v/InfoView.svg?style=flat)](http://cocoapods.org/pods/InfoView)
 [![License](https://img.shields.io/cocoapods/l/InfoView.svg?style=flat)](http://cocoapods.org/pods/InfoView)
 [![Platform](https://img.shields.io/cocoapods/p/InfoView.svg?style=flat)](http://cocoapods.org/pods/InfoView)
