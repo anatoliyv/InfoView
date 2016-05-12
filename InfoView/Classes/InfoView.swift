@@ -132,7 +132,7 @@ public class InfoView: UIView {
     public var hideAfterDelay: CGFloat? {
         didSet {
             if let hideAfterDelay = hideAfterDelay {
-                timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(hideAfterDelay), target: self, selector: Selector("hide"), userInfo: nil, repeats: false)
+                timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(hideAfterDelay), target: self, selector: #selector(InfoView.hide), userInfo: nil, repeats: false)
             } else {
                 timer?.invalidate()
                 timer = nil
@@ -318,8 +318,6 @@ public class InfoView: UIView {
             case .FadeInAndScale:
                 self.placeholderView.transform = self.scaleTransform(self.placeholderView.transform)
                 self.label.transform = self.scaleTransform(self.label.transform)
-            default:
-                break
             }
         }, completion: { (complete) in
             self.backgroundView.removeFromSuperview()

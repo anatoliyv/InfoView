@@ -52,11 +52,11 @@ internal class PlaceholderView: UIView {
         let corner: CGFloat = layer.cornerRadius
         let triangle = Constants.TriangleSize
         let triangleRadius = Constants.TriangleRadius
-        var edges = UIEdgeInsets(top: (arrowPosition == .Top ? triangle.height : 0),
+        let edges = UIEdgeInsets(top: (arrowPosition == .Top ? triangle.height : 0),
                                  left: (arrowPosition == .Left ? triangle.height : 0),
                                  bottom: (arrowPosition == .Bottom ? triangle.height : 0),
                                  right: (arrowPosition == .Right ? triangle.height : 0))
-        var context = UIGraphicsGetCurrentContext()
+        let context = UIGraphicsGetCurrentContext()
 
         CGContextClearRect(context, rect)
 

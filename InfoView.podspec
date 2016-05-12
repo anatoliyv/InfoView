@@ -18,7 +18,8 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Swift written view to show small text information blocks with arrow pointed to another view.
+In most cases it will be a button that was pressed.
                        DESC
 
   s.homepage         = "https://github.com/anatoliyv/InfoView"
