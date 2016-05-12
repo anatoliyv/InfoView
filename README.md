@@ -2,7 +2,7 @@
 
 View to show small text information blocks with arrow pointed to another view.In most cases it will be a button that was pressed.
 
-![infoview](https://cloud.githubusercontent.com/assets/1595032/15214074/9bcf9a1a-1853-11e6-826f-ee56bc19017e.gif)
+![infoview5](https://cloud.githubusercontent.com/assets/1595032/15215075/30e1f68e-1859-11e6-9cc9-cdf98d013b3c.gif)
 
 [![Version](https://img.shields.io/cocoapods/v/InfoView.svg?style=flat)](http://cocoapods.org/pods/InfoView)
 [![License](https://img.shields.io/cocoapods/l/InfoView.svg?style=flat)](http://cocoapods.org/pods/InfoView)
