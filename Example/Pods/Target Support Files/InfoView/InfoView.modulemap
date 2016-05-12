@@ -1,0 +1,6 @@
+framework module InfoView {
+  umbrella header "InfoView-umbrella.h"
+
+  export *
+  module * { export * }
+}

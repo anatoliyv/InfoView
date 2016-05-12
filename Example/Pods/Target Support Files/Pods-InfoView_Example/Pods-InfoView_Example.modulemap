@@ -1,0 +1,6 @@
+framework module Pods_InfoView_Example {
+  umbrella header "Pods-InfoView_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

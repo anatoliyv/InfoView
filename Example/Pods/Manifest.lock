@@ -1,0 +1,16 @@
+PODS:
+  - InfoView (0.1.0)
+
+DEPENDENCIES:
+  - InfoView (from `../`)
+
+EXTERNAL SOURCES:
+  InfoView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  InfoView: bdebeb5aac178cc377b6403b459fb73b6a4d6c23
+
+PODFILE CHECKSUM: a489311cbb705118a7d95f753bc128a67608b31a
+
+COCOAPODS: 1.0.0
