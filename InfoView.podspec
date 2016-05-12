@@ -24,7 +24,7 @@ In most cases it will be a button that was pressed.
 
   s.homepage         = "https://github.com/anatoliyv/InfoView"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
-  s.license          = 'GNU'
+  s.license          = 'MIT'
   s.author           = { "Anatoliy Voropay" => "anatoliy.voropay@gmail.com" }
   s.source           = { :git => "https://github.com/anatoliyv/InfoView.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
