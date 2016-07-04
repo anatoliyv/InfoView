@@ -17,12 +17,17 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
+## CocoaPods
 InfoView is available through [CocoaPods](http://cocoapods.org/pods/InfoView). To install
 it, simply add the following line to your Podfile:
 
 ```
 pod "InfoView"
 ```
+
+#### Manually
+1. Download and drop ```/InfoView```folder in your project.  
+2. Congratulations!  
 
 ## Simple appearance
 
