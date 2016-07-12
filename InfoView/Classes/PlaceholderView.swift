@@ -18,10 +18,10 @@ internal class PlaceholderView: UIView {
         static let TriangleRadius: CGFloat = 3
     }
 
-    var color: UIColor? = UIColor.clearColor()
+    var color: UIColor? = UIColor.clear()
     var triangleOffset: CGPoint = CGPoint.zero
 
-    var arrowPosition: InfoViewArrowPosition = .Automatic {
+    var arrowPosition: InfoViewArrowPosition = .automatic {
         didSet { setNeedsDisplay() }
     }
 
@@ -42,84 +42,85 @@ internal class PlaceholderView: UIView {
     }
 
     private func customize() {
-        opaque = false
-        backgroundColor = UIColor.clearColor()
+        isOpaque = false
+        backgroundColor = UIColor.clear()
         clipsToBounds = false
         layer.masksToBounds = false
     }
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         let corner: CGFloat = layer.cornerRadius
         let triangle = Constants.TriangleSize
         let triangleRadius = Constants.TriangleRadius
-        let edges = UIEdgeInsets(top: (arrowPosition == .Top ? triangle.height : 0),
-                                 left: (arrowPosition == .Left ? triangle.height : 0),
-                                 bottom: (arrowPosition == .Bottom ? triangle.height : 0),
-                                 right: (arrowPosition == .Right ? triangle.height : 0))
+        let edges = UIEdgeInsets(top: (arrowPosition == .top ? triangle.height : 0),
+                                 left: (arrowPosition == .left ? triangle.height : 0),
+                                 bottom: (arrowPosition == .bottom ? triangle.height : 0),
+                                 right: (arrowPosition == .right ? triangle.height : 0))
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextClearRect(context, rect)
+        context?.clear(rect)
 
         if let color = color {
-            CGContextSetFillColorWithColor(context, color.CGColor)
+            context?.setFillColor(color.cgColor)
         }
 
         //
         // DRAW ROUND CORNER BORDER
         //
 
-        CGContextBeginPath(context)
-        CGContextMoveToPoint(context, corner + edges.left, edges.top)
+        context?.beginPath()
+        context?.moveTo(x: corner + edges.left, y: edges.top)
 
-        if arrowPosition == .Top {
-            CGContextAddLineToPoint(context, (CGRectGetMaxX(rect) - triangle.width) / 2 + triangleOffset.x, edges.top)
-            CGContextAddArcToPoint(context, CGRectGetMaxX(rect) / 2 + triangleOffset.x, 0,
-                                   (CGRectGetMaxX(rect) + triangle.width) / 2 + triangleOffset.x, edges.top,
-                                   triangleRadius)
-            CGContextAddLineToPoint(context, (CGRectGetMaxX(rect) + triangle.width) / 2 + triangleOffset.x, edges.top)
+        if arrowPosition == .top {
+            context?.addLineTo(x: (rect.maxX - triangle.width) / 2 + triangleOffset.x, y: edges.top)
+            
+            context?.addArc(x1: rect.maxX / 2 + triangleOffset.x, y1: 0,
+                                   x2: (rect.maxX + triangle.width) / 2 + triangleOffset.x, y2: edges.top,
+                                   radius: triangleRadius)
+            context?.addLineTo(x: (rect.maxX + triangle.width) / 2 + triangleOffset.x, y: edges.top)
         }
 
-        CGContextAddLineToPoint(context, CGRectGetMaxX(rect) - corner - edges.right, edges.top)
-        CGContextAddQuadCurveToPoint(context, CGRectGetMaxX(rect) - edges.right, edges.top,
-                                     CGRectGetMaxX(rect) - edges.right, corner + edges.top)
+        context?.addLineTo(x: rect.maxX - corner - edges.right, y: edges.top)
+        context?.addQuadCurveTo(cpx: rect.maxX - edges.right, cpy: edges.top,
+                                     endingAtX: rect.maxX - edges.right, y: corner + edges.top)
 
-        if arrowPosition == .Right {
-            CGContextAddLineToPoint(context, CGRectGetMaxX(rect) - edges.right, (CGRectGetMaxY(rect) - triangle.width) / 2 + triangleOffset.y)
-            CGContextAddArcToPoint(context, CGRectGetMaxX(rect), CGRectGetMaxY(rect) / 2 + triangleOffset.y,
-                                   CGRectGetMaxX(rect) - edges.right, (CGRectGetMaxY(rect) + triangle.width) / 2 + triangleOffset.y,
-                                   triangleRadius)
-            CGContextAddLineToPoint(context, CGRectGetMaxX(rect) - edges.right, (CGRectGetMaxY(rect) + triangle.width) / 2 + triangleOffset.y)
+        if arrowPosition == .right {
+            context?.addLineTo(x: rect.maxX - edges.right, y: (rect.maxY - triangle.width) / 2 + triangleOffset.y)
+            context?.addArc(x1: rect.maxX, y1: rect.maxY / 2 + triangleOffset.y,
+                                   x2: rect.maxX - edges.right, y2: (rect.maxY + triangle.width) / 2 + triangleOffset.y,
+                                   radius: triangleRadius)
+            context?.addLineTo(x: rect.maxX - edges.right, y: (rect.maxY + triangle.width) / 2 + triangleOffset.y)
         }
 
-        CGContextAddLineToPoint(context, CGRectGetMaxX(rect) - edges.right, CGRectGetMaxY(rect) - corner - edges.bottom)
-        CGContextAddQuadCurveToPoint(context, CGRectGetMaxX(rect) - edges.right, CGRectGetMaxY(rect) - edges.bottom,
-                                     CGRectGetMaxX(rect) - corner - edges.right, CGRectGetMaxY(rect) - edges.bottom)
+        context?.addLineTo(x: rect.maxX - edges.right, y: rect.maxY - corner - edges.bottom)
+        context?.addQuadCurveTo(cpx: rect.maxX - edges.right, cpy: rect.maxY - edges.bottom,
+                                     endingAtX: rect.maxX - corner - edges.right, y: rect.maxY - edges.bottom)
 
-        if arrowPosition == .Bottom {
-            CGContextAddLineToPoint(context, (CGRectGetMaxX(rect) - triangle.width) / 2 + triangleOffset.x, CGRectGetMaxY(rect) - edges.bottom)
-            CGContextAddArcToPoint(context, CGRectGetMaxX(rect) / 2 + triangleOffset.x, CGRectGetMaxY(rect),
-                                   (CGRectGetMaxX(rect) + triangle.width) / 2 + triangleOffset.x, CGRectGetMaxY(rect) - edges.bottom,
-                                   triangleRadius)
-            CGContextAddLineToPoint(context, (CGRectGetMaxX(rect) + triangle.width) / 2 + triangleOffset.x, CGRectGetMaxY(rect) - edges.bottom)
+        if arrowPosition == .bottom {
+            context?.addLineTo(x: (rect.maxX - triangle.width) / 2 + triangleOffset.x, y: rect.maxY - edges.bottom)
+            context?.addArc(x1: rect.maxX / 2 + triangleOffset.x, y1: rect.maxY,
+                                   x2: (rect.maxX + triangle.width) / 2 + triangleOffset.x, y2: rect.maxY - edges.bottom,
+                                   radius: triangleRadius)
+            context?.addLineTo(x: (rect.maxX + triangle.width) / 2 + triangleOffset.x, y: rect.maxY - edges.bottom)
         }
 
-        CGContextAddLineToPoint(context, corner + edges.left, CGRectGetMaxY(rect) - edges.bottom)
-        CGContextAddQuadCurveToPoint(context, 0 + edges.left, CGRectGetMaxY(rect) - edges.bottom,
-                                     edges.left, CGRectGetMaxY(rect) - corner - edges.bottom)
+        context?.addLineTo(x: corner + edges.left, y: rect.maxY - edges.bottom)
+        context?.addQuadCurveTo(cpx: 0 + edges.left, cpy: rect.maxY - edges.bottom,
+                                     endingAtX: edges.left, y: rect.maxY - corner - edges.bottom)
 
-        if arrowPosition == .Left {
-            CGContextAddLineToPoint(context, edges.left, (CGRectGetMaxY(rect) + triangle.width) / 2 + triangleOffset.y)
-            CGContextAddArcToPoint(context, 0, CGRectGetMaxY(rect) / 2 + triangleOffset.y,
-                                   edges.left, (CGRectGetMaxY(rect) - triangle.width) / 2 + triangleOffset.y,
-                                   triangleRadius)
-            CGContextAddLineToPoint(context, edges.left, (CGRectGetMaxY(rect) - triangle.width) / 2 + triangleOffset.y)
+        if arrowPosition == .left {
+            context?.addLineTo(x: edges.left, y: (rect.maxY + triangle.width) / 2 + triangleOffset.y)
+            context?.addArc(x1: 0, y1: rect.maxY / 2 + triangleOffset.y,
+                                   x2: edges.left, y2: (rect.maxY - triangle.width) / 2 + triangleOffset.y,
+                                   radius: triangleRadius)
+            context?.addLineTo(x: edges.left, y: (rect.maxY - triangle.width) / 2 + triangleOffset.y)
         }
 
-        CGContextAddLineToPoint(context, edges.left, corner + edges.top)
-        CGContextAddQuadCurveToPoint(context, edges.left, edges.top,
-                                     corner + edges.left, edges.top)
+        context?.addLineTo(x: edges.left, y: corner + edges.top)
+        context?.addQuadCurveTo(cpx: edges.left, cpy: edges.top,
+                                     endingAtX: corner + edges.left, y: edges.top)
         
-        CGContextClosePath(context)
-        CGContextFillPath(context)
+        context?.closePath()
+        context?.fillPath()
     }
 }
