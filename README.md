@@ -17,6 +17,10 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
+#### Swift3
+
+Swift3 support implemented in this [branch](https://github.com/anatoliyv/InfoView/tree/swift3).
+
 #### CocoaPods
 InfoView is available through [CocoaPods](http://cocoapods.org/pods/InfoView). To install
 it, simply add the following line to your Podfile:
@@ -26,7 +30,7 @@ pod "InfoView"
 ```
 
 #### Manually
-1. Download and drop ```/InfoView```folder in your project.  
+1. Download and drop ```/InfoView``` folder in your project.  
 2. Congratulations!  
 
 ## Simple appearance
@@ -106,6 +110,12 @@ pod "InfoView"
 ## Author
 
 Anatoliy Voropay, anatoliy.voropay@gmail.com
+
+## Contributors
+
+Thank you all!
+
+[lfarah](https://github.com/lfarah)
 
 ## License
 
