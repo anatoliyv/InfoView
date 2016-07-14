@@ -115,7 +115,7 @@ Anatoliy Voropay, anatoliy.voropay@gmail.com
 
 Thank you all!
 
-[lfarah](https://github.com/lfarah)
+ * [lfarah](https://github.com/lfarah)
 
 ## License
 
