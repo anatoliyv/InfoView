@@ -12,7 +12,7 @@ import UIKit
  Background view that handle touches
  */
 internal protocol BackgroundViewDelegate : class {
-    func pressedBackgorund(view: BackgroundView)
+    func pressedBackgorund(_ view: BackgroundView)
 }
 
 internal class BackgroundView: UIView {
@@ -32,13 +32,13 @@ internal class BackgroundView: UIView {
     }
 
     private func customize() {
-        userInteractionEnabled = true
+        isUserInteractionEnabled = true
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(BackgroundView.pressedBackground(_:)))
         addGestureRecognizer(tapRecognizer)
     }
 
-    @objc func pressedBackground(sender: AnyObject?) {
+    @objc func pressedBackground(_ sender: AnyObject?) {
         delegate?.pressedBackgorund(self)
     }
 }
