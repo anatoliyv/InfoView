@@ -16,9 +16,9 @@ import UIKit
  - Parameter Left, Right, Top, Bottom:  Define view side that will contain an errow
  */
 public enum InfoViewArrowPosition {
-    case None
-    case Automatic
-    case Left, Right, Top, Bottom
+    case none
+    case automatic
+    case left, right, top, bottom
 }
 
 /**
@@ -29,19 +29,19 @@ public enum InfoViewArrowPosition {
  - Parameter FadeInAndScale:    FadeIn and Scale animation will happen
  */
 public enum InfoViewAnimation {
-    case None
-    case FadeIn
-    case FadeInAndScale
+    case none
+    case fadeIn
+    case fadeInAndScale
 }
 
 /**
  Delegate that can handle events from InfoView appearance.
  */
 @objc public protocol InfoViewDelegate {
-    optional func infoViewWillShow(view: InfoView)
-    optional func infoViewDidShow(view: InfoView)
-    optional func infoViewWillHide(view: InfoView)
-    optional func infoViewDidHide(view: InfoView)
+    @objc optional func infoViewWillShow(_ view: InfoView)
+    @objc optional func infoViewDidShow(_ view: InfoView)
+    @objc optional func infoViewWillHide(_ view: InfoView)
+    @objc optional func infoViewDidHide(_ view: InfoView)
 }
 
 /**
@@ -114,25 +114,25 @@ public enum InfoViewAnimation {
  infoView.hideAfterDelay = 2
  ```
  */
-public class InfoView: UIView {
+open class InfoView: UIView {
 
     /// Arrow position
-    public var arrowPosition: InfoViewArrowPosition = .Automatic
+    open var arrowPosition: InfoViewArrowPosition = .automatic
 
     /// Animation
-    public var animation: InfoViewAnimation = .FadeIn
+    open var animation: InfoViewAnimation = .fadeIn
 
     /// InfoViewDelegate delegate
-    public weak var delegate: InfoViewDelegate?
+    open weak var delegate: InfoViewDelegate?
 
     /// Text message
-    public var text: String?
+    open var text: String?
 
     /// Autohide after delay
-    public var hideAfterDelay: CGFloat? {
+    open var hideAfterDelay: CGFloat? {
         didSet {
             if let hideAfterDelay = hideAfterDelay {
-                timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(hideAfterDelay), target: self, selector: #selector(InfoView.hide), userInfo: nil, repeats: false)
+                timer = Timer.scheduledTimer(timeInterval: TimeInterval(hideAfterDelay), target: self, selector: #selector(InfoView.hide), userInfo: nil, repeats: false)
             } else {
                 timer?.invalidate()
                 timer = nil
@@ -141,46 +141,46 @@ public class InfoView: UIView {
     }
 
     /// Text padding
-    public var textInsets: UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    open var textInsets: UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
 
     /// Text label font
-    public var font: UIFont?
+    open var font: UIFont?
 
     /// Text label color
-    public var textColor: UIColor?
+    open var textColor: UIColor?
 
-    private lazy var label: UILabel = {
+    fileprivate lazy var label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         self.backgroundView.insertSubview(label, aboveSubview: self.placeholderView)
         return label
     }()
 
-    private lazy var placeholderView: PlaceholderView = {
+    fileprivate lazy var placeholderView: PlaceholderView = {
         let placeholderView = PlaceholderView()
         placeholderView.color = self.backgroundColor
         self.backgroundView.addSubview(placeholderView)
         return placeholderView
     }()
 
-    private lazy var backgroundView: BackgroundView = {
+    fileprivate lazy var backgroundView: BackgroundView = {
         let backgroundView = BackgroundView()
-        backgroundView.backgroundColor = .clearColor()
-        backgroundView.autoresizingMask = [ .FlexibleWidth, .FlexibleHeight ]
+        backgroundView.backgroundColor = .clear
+        backgroundView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
         backgroundView.delegate = self
         return backgroundView
     }()
 
-    override public var autoresizingMask: UIViewAutoresizing {
+    override open var autoresizingMask: UIViewAutoresizing {
         didSet {
             placeholderView.autoresizingMask = autoresizingMask
             label.autoresizingMask = autoresizingMask
         }
     }
 
-    private weak var onView: UIView?
-    private weak var centerView: UIView?
-    private var timer: NSTimer?
+    fileprivate weak var onView: UIView?
+    fileprivate weak var centerView: UIView?
+    fileprivate var timer: Timer?
 
     // MARK: Lifecycle
 
@@ -195,11 +195,11 @@ public class InfoView: UIView {
     }
 
     public convenience init(text: String, delegate: InfoViewDelegate) {
-        self.init(text: text, arrowPosition: .Automatic, animation: .FadeIn, delegate: delegate)
+        self.init(text: text, arrowPosition: .automatic, animation: .fadeIn, delegate: delegate)
     }
 
     public convenience init(text: String) {
-        self.init(text: text, arrowPosition: .Automatic, animation: .FadeIn, delegate: nil)
+        self.init(text: text, arrowPosition: .automatic, animation: .fadeIn, delegate: nil)
     }
 
     public init(text: String, arrowPosition: InfoViewArrowPosition, animation: InfoViewAnimation, delegate: InfoViewDelegate?) {
@@ -215,7 +215,7 @@ public class InfoView: UIView {
 
     // MARK: Appearance
 
-    public func show(onView view: UIView, centerView: UIView) {
+    open func show(onView view: UIView, centerView: UIView) {
         self.onView = view
         self.centerView = centerView
 
@@ -223,20 +223,20 @@ public class InfoView: UIView {
         var labelRect = CGRect(x: suitableRect.origin.x + textInsets.left, y: suitableRect.origin.y + textInsets.top, width: suitableRect.width - textInsets.left - textInsets.right, height: suitableRect.height - textInsets.bottom - textInsets.top)
 
         switch correctArrowPosition() {
-        case .Left:
+        case .left:
             labelRect.size.width -= PlaceholderView.Constants.TriangleSize.height
             labelRect.origin.x += PlaceholderView.Constants.TriangleSize.height
 
-        case .Right:
+        case .right:
             labelRect.size.width -= PlaceholderView.Constants.TriangleSize.height
             labelRect.origin.x -= PlaceholderView.Constants.TriangleSize.height
             suitableRect.origin.x -= PlaceholderView.Constants.TriangleSize.height
 
-        case .Top:
+        case .top:
             labelRect.size.height -= PlaceholderView.Constants.TriangleSize.height
             labelRect.origin.y += PlaceholderView.Constants.TriangleSize.height
 
-        case .Bottom:
+        case .bottom:
             labelRect.size.height -= PlaceholderView.Constants.TriangleSize.height
             labelRect.origin.y -= PlaceholderView.Constants.TriangleSize.height
             suitableRect.origin.y -= PlaceholderView.Constants.TriangleSize.height
@@ -269,7 +269,7 @@ public class InfoView: UIView {
         animateAppearance()
     }
 
-    func hide() {
+    @objc func hide() {
         timer?.invalidate()
         timer = nil
         
@@ -278,25 +278,25 @@ public class InfoView: UIView {
 
     // MARK: Animation
 
-    private func animateAppearance() {
+    fileprivate func animateAppearance() {
         delegate?.infoViewWillShow?(self)
 
         switch self.animation {
-        case .FadeInAndScale:
+        case .fadeInAndScale:
             placeholderView.transform = scaleTransform(placeholderView.transform)
             label.transform = scaleTransform(label.transform)
         default:
             break
         }
 
-        UIView.animateWithDuration(duration(), animations: {
+        UIView.animate(withDuration: duration(), animations: {
             self.label.alpha = 1
             self.placeholderView.alpha = 1
 
             switch self.animation {
-            case .FadeInAndScale:
-                self.placeholderView.transform = CGAffineTransformIdentity
-                self.label.transform = CGAffineTransformIdentity
+            case .fadeInAndScale:
+                self.placeholderView.transform = CGAffineTransform.identity
+                self.label.transform = CGAffineTransform.identity
             default:
                 break
             }
@@ -305,17 +305,17 @@ public class InfoView: UIView {
         })
     }
 
-    private func animateDisappearance() {
+    fileprivate func animateDisappearance() {
         self.delegate?.infoViewWillHide?(self)
 
-        UIView.animateWithDuration(duration(), animations: {
+        UIView.animate(withDuration: duration(), animations: {
             self.label.alpha = 0
             self.placeholderView.alpha = 0
 
             switch self.animation {
-            case .FadeIn, .None:
+            case .fadeIn, .none:
                 break
-            case .FadeInAndScale:
+            case .fadeInAndScale:
                 self.placeholderView.transform = self.scaleTransform(self.placeholderView.transform)
                 self.label.transform = self.scaleTransform(self.label.transform)
             }
@@ -325,23 +325,23 @@ public class InfoView: UIView {
         })
     }
 
-    private func duration() -> NSTimeInterval {
-        return animation == .None ? 0 : 0.2
+    fileprivate func duration() -> TimeInterval {
+        return animation == .none ? 0 : 0.2
     }
 
-    private func scaleTransform(t: CGAffineTransform) -> CGAffineTransform {
-        return CGAffineTransformScale(t, 0.5, 0.5)
+    fileprivate func scaleTransform(_ t: CGAffineTransform) -> CGAffineTransform {
+        return t.scaledBy(x: 0.5, y: 0.5)
     }
 
     // MARK: Helpers
 
     /// Return correct arrow position. It will detect correct position for Automatic also.
-    private func correctArrowPosition() -> InfoViewArrowPosition {
-        if arrowPosition == .Automatic {
-            guard let view = onView else { return .Left }
-            guard let centerView = centerView else { return .Left }
+    fileprivate func correctArrowPosition() -> InfoViewArrowPosition {
+        if arrowPosition == .automatic {
+            guard let view = onView else { return .left }
+            guard let centerView = centerView else { return .left }
 
-            let centerRect = view.convertRect(centerView.frame, toView: view)
+            let centerRect = view.convert(centerView.frame, to: view)
 
             let width1 = view.frame.width
             let height1 = centerRect.origin.y
@@ -363,13 +363,13 @@ public class InfoView: UIView {
             let max: CGFloat = CGFloat(fmaxf(fmaxf(Float(area1), Float(area2)), fmaxf(Float(area3), Float(area4))))
 
             if max == area1 {
-                return .Bottom
+                return .bottom
             } else if max == area2 {
-                return .Left
+                return .left
             } else if max == area3 {
-                return .Top
+                return .top
             } else {
-                return .Right
+                return .right
             }
 
         } else {
@@ -377,16 +377,16 @@ public class InfoView: UIView {
         }
     }
 
-    private func textAlignment() -> NSTextAlignment {
+    fileprivate func textAlignment() -> NSTextAlignment {
         switch correctArrowPosition() {
-        case .Left: return .Left
-        case .Right: return .Right
-        case .Top, .Bottom, .Automatic, .None: return .Center
+        case .left: return .left
+        case .right: return .right
+        case .top, .bottom, .automatic, .none: return .center
         }
     }
 
     /// Return customized label with settings
-    private func customizedLabel() -> UILabel {
+    fileprivate func customizedLabel() -> UILabel {
         let label = UILabel()
         label.text = text
         label.font = font
@@ -401,24 +401,24 @@ public class InfoView: UIView {
 extension InfoView {
 
     /// Return maximum allowed rect according to preferences
-    private func visibleRect() -> CGRect {
+    fileprivate func visibleRect() -> CGRect {
         guard let view = onView else { return CGRect.zero }
         guard let centerView = centerView else { return CGRect.zero }
 
-        let centerRect = view.convertRect(centerView.frame, toView: view)
+        let centerRect = view.convert(centerView.frame, to: view)
         var visibleRect = CGRect.zero
 
         switch correctArrowPosition() {
-        case .Left:
+        case .left:
             visibleRect = CGRect(origin: CGPoint(x: centerRect.origin.x + centerRect.size.width, y: 0), size: CGSize(width: view.frame.width - centerRect.origin.x - centerRect.size.width, height: view.frame.height))
 
-        case .Right:
+        case .right:
             visibleRect = CGRect(origin: CGPoint.zero, size: CGSize(width: centerRect.origin.x, height: view.frame.height))
 
-        case .Bottom:
+        case .bottom:
             visibleRect = CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.width, height: centerRect.origin.y))
 
-        case .Top:
+        case .top:
             visibleRect = CGRect(origin: CGPoint(x: 0, y: centerRect.origin.y + centerRect.size.height), size: CGSize(width: view.frame.width, height: view.frame.height - centerRect.origin.y - centerRect.size.height))
 
         default:
@@ -429,17 +429,17 @@ extension InfoView {
     }
 
     /// Return allowed rect for final label according with textInsets
-    private func allowedRect(inRect rect: CGRect) -> CGRect {
+    fileprivate func allowedRect(inRect rect: CGRect) -> CGRect {
         let size = CGSize(width: rect.width - textInsets.left - textInsets.right, height: rect.height - textInsets.bottom - textInsets.top)
         let origin = CGPoint(x: rect.origin.x + textInsets.left, y: rect.origin.y + textInsets.top)
         return CGRect(origin: origin, size: size)
     }
 
     /// Return suitable rect for final label
-    private func labelRect(inRect rect: CGRect) -> CGRect {
+    fileprivate func labelRect(inRect rect: CGRect) -> CGRect {
         var allowedRect = self.allowedRect(inRect: rect)
-        allowedRect.size.height = CGFloat.max
-        allowedRect.size.width *= ( UIDevice.currentDevice().userInterfaceIdiom == .Pad ? 0.5 : 0.8 )
+        allowedRect.size.height = CGFloat.greatestFiniteMagnitude
+        allowedRect.size.width *= ( UIDevice.current.userInterfaceIdiom == .pad ? 0.5 : 0.8 )
 
         let label = customizedLabel()
         label.frame = allowedRect
@@ -449,32 +449,32 @@ extension InfoView {
 
     /// Return final rect for our placeholderView
     /// CGPoint is offset for triangle
-    private func suitableRect() -> (CGRect, CGPoint) {
+    fileprivate func suitableRect() -> (CGRect, CGPoint) {
         guard let view = onView else { return (CGRect.zero, CGPoint.zero) }
         guard let centerView = centerView else { return (CGRect.zero, CGPoint.zero) }
 
         let visibleRect = self.visibleRect()
-        let centerRect = view.convertRect(centerView.frame, toView: view)
+        let centerRect = view.convert(centerView.frame, to: view)
         var finalRect = labelRect(inRect: visibleRect)
         var finalOffset = CGPoint.zero
 
         switch correctArrowPosition() {
-        case .Left:
+        case .left:
             finalRect.origin.y = centerRect.origin.y + centerView.frame.size.height / 2 - finalRect.size.height / 2
             finalRect.origin.x = visibleRect.origin.x + textInsets.left
             finalRect.size.width += PlaceholderView.Constants.TriangleSize.height
 
-        case .Right:
+        case .right:
             finalRect.origin.y = centerRect.origin.y + centerView.frame.size.height / 2 - finalRect.size.height / 2
             finalRect.origin.x = centerRect.origin.x - finalRect.size.width - textInsets.right
             finalRect.size.width += PlaceholderView.Constants.TriangleSize.height
 
-        case .Top:
+        case .top:
             finalRect.origin.x = centerRect.origin.x + centerView.frame.size.width / 2 - finalRect.size.width / 2
             finalRect.origin.y = centerRect.origin.y + centerRect.size.height + textInsets.top
             finalRect.size.height += PlaceholderView.Constants.TriangleSize.height
 
-        case .Bottom:
+        case .bottom:
             finalRect.origin.x = centerRect.origin.x + centerView.frame.size.width / 2 - finalRect.size.width / 2
             finalRect.origin.y = centerRect.origin.y - finalRect.size.height - textInsets.bottom
             finalRect.size.height += PlaceholderView.Constants.TriangleSize.height
@@ -511,21 +511,21 @@ extension InfoView {
 // MARK: Appearance customization
 
 extension InfoView {
-    private func customizeAppearance() {
-        font = .systemFontOfSize(14)
-        textColor = .blackColor()
-        backgroundColor = .whiteColor()
+    fileprivate func customizeAppearance() {
+        font = .systemFont(ofSize: 14)
+        textColor = .black
+        backgroundColor = .white
 
         layer.cornerRadius = 5
         layer.shadowOpacity = 0.5
-        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowColor = UIColor.black.cgColor
         layer.shadowRadius = 2
         layer.shadowOffset = CGSize(width: 0, height: 0)
     }
 }
 
 extension InfoView: BackgroundViewDelegate {
-    func pressedBackgorund(view: BackgroundView) {
+    func pressedBackgorund(_ view: BackgroundView) {
         hide()
     }
 }
