@@ -1,17 +1,17 @@
  //
-//  PlaceholderView.swift
-//  Pods
-//
-//  Created by Anatoliy Voropay on 5/12/16.
-//
-//
+ //  PlaceholderView.swift
+ //  Pods
+ //
+ //  Created by Anatoliy Voropay on 5/12/16.
+ //
+ //
 
-import UIKit
+ import UIKit
 
-/**
- PlaceholderView to draw an area with triangle
- */
-internal class PlaceholderView: UIView {
+ /**
+  PlaceholderView to draw an area with triangle
+  */
+ internal class PlaceholderView: UIView {
 
     struct Constants {
         static let TriangleSize = CGSize(width: 25, height: 8)
@@ -80,7 +80,7 @@ internal class PlaceholderView: UIView {
         }
 
         context.addLine(to: CGPoint(x: rect.maxX - corner - edges.right, y: edges.top))
-        context.addQuadCurve(to: CGPoint(x: rect.maxX - edges.right, y: edges.top), control: CGPoint(x: rect.maxX - edges.right, y: corner + edges.top))
+        context.addQuadCurve(to: CGPoint(x: rect.maxX - edges.right, y: corner + edges.top), control: CGPoint(x: rect.maxX - edges.right, y: edges.top))
 
         if arrowPosition == .right {
             context.addLine(to: CGPoint(x: rect.maxX - edges.right, y: (rect.maxY - triangle.width) / 2 + triangleOffset.y))
@@ -89,7 +89,7 @@ internal class PlaceholderView: UIView {
         }
 
         context.addLine(to: CGPoint(x: rect.maxX - edges.right, y: rect.maxY - corner - edges.bottom))
-        context.addQuadCurve(to: CGPoint(x: rect.maxX - edges.right, y: rect.maxY - edges.bottom), control: CGPoint(x: rect.maxX - corner - edges.right, y: rect.maxY - edges.bottom))
+        context.addQuadCurve(to: CGPoint(x: rect.maxX - corner - edges.right, y: rect.maxY - edges.bottom), control: CGPoint(x: rect.maxX - edges.right, y: rect.maxY - edges.bottom))
 
         if arrowPosition == .bottom {
             context.addLine(to: CGPoint(x: (rect.maxX - triangle.width) / 2 + triangleOffset.x, y: rect.maxY - edges.bottom))
@@ -98,7 +98,7 @@ internal class PlaceholderView: UIView {
         }
 
         context.addLine(to: CGPoint(x: corner + edges.left, y: rect.maxY - edges.bottom))
-        context.addQuadCurve(to: CGPoint(x: 0 + edges.left, y: rect.maxY - edges.bottom), control: CGPoint(x: edges.left, y: rect.maxY - corner - edges.bottom))
+        context.addQuadCurve(to: CGPoint(x: edges.left, y: rect.maxY - corner - edges.bottom), control: CGPoint(x: 0 + edges.left, y: rect.maxY - edges.bottom))
 
         if arrowPosition == .left {
             context.addLine(to: CGPoint(x: edges.left, y: (rect.maxY + triangle.width) / 2 + triangleOffset.y))
@@ -107,9 +107,9 @@ internal class PlaceholderView: UIView {
         }
 
         context.addLine(to: CGPoint(x: edges.left, y: corner + edges.top))
-        context.addQuadCurve(to: CGPoint(x: edges.left, y: edges.top), control: CGPoint(x: corner + edges.left, y: edges.top))
+        context.addQuadCurve(to: CGPoint(x: corner + edges.left, y: edges.top), control: CGPoint(x: edges.left, y: edges.top))
 
         context.closePath()
         context.fillPath()
     }
-}
+ }
