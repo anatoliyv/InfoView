@@ -17,6 +17,12 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
+#### Swift 4
+
+Swift4 support:
+
+pod "InfoView", :git => 'https://github.com/Wooder/InfoView.git', :branch => 'master')
+
 #### Swift3
 
 Swift3 support implemented in this [branch](https://github.com/anatoliyv/InfoView/tree/swift3).
