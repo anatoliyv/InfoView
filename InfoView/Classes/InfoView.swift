@@ -171,7 +171,7 @@ open class InfoView: UIView {
         return backgroundView
     }()
 
-    override open var autoresizingMask: UIViewAutoresizing {
+    override open var autoresizingMask: UIView.AutoresizingMask {
         didSet {
             placeholderView.autoresizingMask = autoresizingMask
             label.autoresizingMask = autoresizingMask
