@@ -17,9 +17,9 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-#### Swift 4
+#### Swift 5
 
-Swift4 support:
+Swift5 support:
 
 pod "InfoView", :git => 'https://github.com/Wooder/InfoView.git', :branch => 'master')
 
